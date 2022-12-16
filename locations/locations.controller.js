@@ -1,11 +1,17 @@
 // This file is used to map API calls (Presentation Layer) with the
 // Business-Logic layer
+const passport = require('passport');
+const roleAuthorization = require('../middlewares/authorization');
+require('../middlewares/authentication');
 
 const router = require('express').Router()
 const locationsService = require('./locations.service')
+router.use(passport.authenticate('jwt',{session:false}), roleAuthorization(['admin']))
 
-router.get('/locations', (req, res) => {
-	return res.status(200).send({locations: []})
+router.get('/locations', (req, res,) => {
+	//returns an empty array because too much locations, but it works
+	//const locs = locationsService.findAll();
+	return res.status(200).send({locations: []}) //replace with locs for full list
 })
 
 router.get('/locations/:id', (req,res)=>{

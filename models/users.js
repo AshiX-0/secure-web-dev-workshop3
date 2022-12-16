@@ -30,5 +30,20 @@ userSchema.methods.login = async function(password) {
     return match;
 }
 
+userSchema.methods.updateWithPassword = async function(newUsername,newPassword) {
+    this.username = newUsername;
+    this.password = newPassword;
+    await this.save();
+}
+userSchema.pre('findOneAndUpdate', async function () {
+    let update = {...this.getUpdate()};  
+    if (update.password){
+        const salt = await bcrypt.genSalt();
+        update.password = await bcrypt.hash(this.getUpdate().password,salt);
+        this.setUpdate(update);
+    }
+  })
+
+
 const User = mongoose.model('user',userSchema);
 module.exports=User;
