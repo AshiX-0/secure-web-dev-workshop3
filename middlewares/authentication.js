@@ -38,7 +38,7 @@ passport.use(new jwtStrat({secretOrKey:process.env.SIGN_KEY,jwtFromRequest: extr
     async (token,done)=>{
         try {
             const user = await User.findById(token.user._id);
-            console.log(user);
+            //console.log(user);
             return done(null,user);
         } catch (error) {
             done(error);

@@ -21,8 +21,10 @@ mongoose.connect(process.env.URI, {useNewUrlParser:true, useUnifiedTopology:true
         app.use(router);    
         app.use(passport.initialize());
 
+        //I may or may not have not implemented proper tests because of the link below :/
+        //and console.log is the way
         app.get('/', (req,res)=>{
-            res.status(200).send('Welcome to the API');
+            res.redirect('https://www.reddit.com/r/ProgrammerHumor/');
         })
         app.use((err,req,res,next)=>{res.status(500 || err.status).send(err.message || 'Internal server error')});
         app.listen(port, ()=> {console.log(`Server running, listening to port ${port}. Go to http://localhost:${port}`);});
